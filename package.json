@@ -40,7 +40,7 @@
   },
   "scripts": {
     "build": "tsup",
-    "postinstall": "nr build && node dist/index.js",
+    "test": "nr build && node dist/index.js",
     "release": "bumpp  --commit 'release: install-vscode-recommended-plugins v'"
   },
   "devDependencies": {
