@@ -23,6 +23,7 @@
     "cli",
     "npx"
   ],
+  "bin": "./dist/index.js",
   "exports": {
     ".": {
       "import": "./dist/index.js"
