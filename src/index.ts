@@ -1,14 +1,10 @@
 import { exec } from 'node:child_process'
 import { promises as fsPromises } from 'node:fs'
-import { dirname, join } from 'node:path'
-import { fileURLToPath } from 'node:url'
-
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = dirname(__filename)
+import { join } from 'node:path'
 
 const getPluginsFromJson = async () => {
   try {
-    const filePath = join(__dirname, '..', '.vscode', 'extensions.json')
+    const filePath = join(process.cwd(), '.vscode', 'extensions.json')
     const data = await fsPromises.readFile(filePath, 'utf-8')
     const json = JSON.parse(data) as { recommendations?: string[] }
     return json.recommendations || []
@@ -32,6 +28,8 @@ const installPlugin = (plugin: string) => {
 
 const installPlugins = async () => {
   const plugins = await getPluginsFromJson()
+  if (plugins.length === 0) return
+
   const failedPlugins: string[] = []
   let successfulInstalls = 0
 
