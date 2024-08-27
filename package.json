@@ -1,0 +1,60 @@
+{
+  "name": "install-vscode-recommended-plugins",
+  "version": "0.0.1",
+  "packageManager": "pnpm@9.9.0",
+  "description": "force installation of recommended plugins in .vscode/extensions.json",
+  "author": "wChenonly",
+  "type": "module",
+  "license": "MIT",
+  "homepage": "https://github.com/wChenonly/install-vscode-recommended-plugins",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wChenonly/install-vscode-recommended-plugins.git"
+  },
+  "bugs": "https://github.com/wChenonly/install-vscode-recommended-plugins/issues",
+  "keywords": [
+    "vscode",
+    "extension",
+    "plugin",
+    "recommended",
+    "auto",
+    "install",
+    "force",
+    "cli",
+    "npx"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    }
+  },
+  "main": "./dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=12"
+  },
+  "scripts": {
+    "build": "tsup",
+    "postinstall": "nr build && node dist/index.js",
+    "release": "bumpp  --commit 'release: install-vscode-recommended-plugins v'"
+  },
+  "devDependencies": {
+    "@antfu/ni": "^0.22.4",
+    "@types/node": "^22.5.0",
+    "bumpp": "^9.5.2",
+    "nano-staged": "^0.8.0",
+    "pnpm": "^9.9.0",
+    "prettier": "^3.3.3",
+    "simple-git-hooks": "^2.11.1",
+    "tsup": "^8.2.4",
+    "typescript": "^5.5.4"
+  },
+  "nano-staged": {
+    "*.{ts,tsx,js,jsx,md}": "prettier --write"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npx nano-staged"
+  }
+}
