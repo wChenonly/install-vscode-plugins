@@ -39,8 +39,8 @@
     "node": ">=12"
   },
   "scripts": {
+    "start": "nr build && node dist/index.js",
     "build": "tsup",
-    "test": "nr build && node dist/index.js",
     "release": "bumpp  --commit 'release: install-vscode-recommended-plugins v'"
   },
   "devDependencies": {

@@ -9,7 +9,7 @@ const getPluginsFromJson = async () => {
     const json = JSON.parse(data) as { recommendations?: string[] }
     return json.recommendations || []
   } catch (error) {
-    console.error('install-vscode-recommended-plugin: Error reading extensions.json:', error)
+    console.error('[install-vscode-recommended-plugin]: Error reading extensions.json:', error)
     return []
   }
 }
@@ -18,9 +18,9 @@ const installPlugin = (plugin: string) => {
   return new Promise((resolve, reject) => {
     exec(`code --install-extension ${plugin}`, (error, _stdout, stderr) => {
       if (error) {
-        reject(`install-vscode-recommended-plugin: Error installing ${plugin}: ${stderr}`)
+        reject(`[install-vscode-recommended-plugin]: Error installing ${plugin}: ${stderr}`)
       } else {
-        resolve(`install-vscode-recommended-plugin: Successfully installed ${plugin}`)
+        resolve(`[install-vscode-recommended-plugin]: Installed ${plugin}`)
       }
     })
   })
@@ -36,7 +36,7 @@ const installPlugins = async () => {
   for (const plugin of plugins) {
     try {
       await installPlugin(plugin)
-      console.log(`install-vscode-recommended-plugin: Successfully installed ${plugin}`)
+      console.log(`[install-vscode-recommended-plugin]: Installed ${plugin}`)
       successfulInstalls++
     } catch (error) {
       console.error(error)
@@ -45,9 +45,9 @@ const installPlugins = async () => {
   }
 
   if (failedPlugins.length > 0) {
-    console.error(`install-vscode-recommended-plugin: The following plugins failed to install: ${failedPlugins.join(', ')}`)
+    console.error(`[install-vscode-recommended-plugin]: The following plugins failed to install: ${failedPlugins.join(', ')}`)
   }
-  console.log(`install-vscode-recommended-plugin: Successfully installed a total of ${successfulInstalls} plug-ins.`)
+  console.log(`[install-vscode-recommended-plugin]: Installed a total of ${successfulInstalls} plug-ins.`)
 }
 
 installPlugins()
