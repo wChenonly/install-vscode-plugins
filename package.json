@@ -1,6 +1,6 @@
 {
   "name": "install-vscode-recommended-plugins",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "packageManager": "pnpm@9.9.0",
   "description": "force installation of recommended plugins in .vscode/extensions.json",
   "author": "wChenonly",
