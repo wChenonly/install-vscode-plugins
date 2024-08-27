@@ -23,7 +23,9 @@
     "cli",
     "npx"
   ],
-  "bin": "./dist/index.js",
+  "bin": {
+    "install-vscode-recommended-plugins": "bin/index.js"
+  },
   "exports": {
     ".": {
       "import": "./dist/index.js"
