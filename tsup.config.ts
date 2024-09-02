@@ -7,5 +7,5 @@ export default defineConfig({
   clean: true,
   external: [],
   target: 'node12',
-  minify: true
+  minify: false
 })

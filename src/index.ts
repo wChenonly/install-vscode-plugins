@@ -1,6 +1,9 @@
 import { exec } from 'node:child_process'
 import { promises as fsPromises } from 'node:fs'
 import { join } from 'node:path'
+import { logger } from 'rslog'
+
+const P = '[install-vscode-recommended-plugin]: '
 
 const getPluginsFromJson = async () => {
   try {
@@ -9,7 +12,7 @@ const getPluginsFromJson = async () => {
     const json = JSON.parse(data) as { recommendations?: string[] }
     return json.recommendations || []
   } catch (error) {
-    console.error('[install-vscode-recommended-plugin]: Error reading extensions.json:', error)
+    logger.error(`${P} Error reading extensions.json:`, error)
     return []
   }
 }
@@ -18,9 +21,9 @@ const installPlugin = (plugin: string) => {
   return new Promise((resolve, reject) => {
     exec(`code --install-extension ${plugin}`, (error, _stdout, stderr) => {
       if (error) {
-        reject(`[install-vscode-recommended-plugin]: Error installing ${plugin}: ${stderr}`)
+        reject(`${P} Error installing ${plugin}: ${stderr}`)
       } else {
-        resolve(`[install-vscode-recommended-plugin]: Installed ${plugin}`)
+        resolve(`${P} Installed ${plugin}`)
       }
     })
   })
@@ -30,24 +33,29 @@ const installPlugins = async () => {
   const plugins = await getPluginsFromJson()
   if (plugins.length === 0) return
 
-  const failedPlugins: string[] = []
+  const failedPlugins: undefined | string[] = []
   let successfulInstalls = 0
+  let isError = false
 
   for (const plugin of plugins) {
     try {
       await installPlugin(plugin)
-      console.log(`[install-vscode-recommended-plugin]: Installed ${plugin}`)
+      logger.success(`${P} Installed ${plugin}`)
       successfulInstalls++
     } catch (error) {
-      console.error(error)
-      failedPlugins.push(plugin)
+      isError = true
+      if (error?.toString().includes('command not found')) {
+        logger.error(`${P} please make sure you have the code command available in your PATH
+          see https://code.visualstudio.com/docs/setup/mac#_launching-from-the-command-line`)
+        break
+      }
+      failedPlugins?.push(plugin)
     }
   }
 
-  if (failedPlugins.length > 0) {
-    console.error(`[install-vscode-recommended-plugin]: The following plugins failed to install: ${failedPlugins.join(', ')}`)
+  if (failedPlugins?.length === 0 && !isError) {
+    logger.greet(`[install-vscode-recommended-plugin]: Installed a total of ${successfulInstalls} plug-ins.`)
   }
-  console.log(`[install-vscode-recommended-plugin]: Installed a total of ${successfulInstalls} plug-ins.`)
 }
 
 installPlugins()

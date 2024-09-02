@@ -44,12 +44,14 @@
     "release": "bumpp  --commit 'release: install-vscode-recommended-plugins v'"
   },
   "devDependencies": {
-    "@antfu/ni": "^0.22.4",
-    "@types/node": "^22.5.0",
+    "@antfu/ni": "^0.23.0",
+    "@types/node": "^22.5.2",
     "bumpp": "^9.5.2",
     "nano-staged": "^0.8.0",
+    "picocolors": "^1.0.1",
     "pnpm": "^9.9.0",
     "prettier": "^3.3.3",
+    "rslog": "^1.2.2",
     "simple-git-hooks": "^2.11.1",
     "tsup": "^8.2.4",
     "typescript": "^5.5.4"
