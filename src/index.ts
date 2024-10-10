@@ -54,7 +54,7 @@ const installPlugins = async () => {
   }
 
   if (failedPlugins?.length === 0 && !isError) {
-    logger.greet(`[install-vscode-recommended-plugin]: Installed a total of ${successfulInstalls} plug-ins.`)
+    logger.greet(`${P} Installed a total of ${successfulInstalls} plug-ins.`)
   }
 }
 
